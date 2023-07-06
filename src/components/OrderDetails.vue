@@ -1,5 +1,6 @@
 <template>
-    <div  v-loading.fullscreen.lock="fullscreenLoading" class="orderdata">
+    <div  v-loading.fullscreen.lock="fullscreenLoading" class="orderdata"  v-if="JSON.stringify(OrderData) != '{}' ">
+
         <div class="tongzhi">
             <div class="content">
                 <i class="iconfont el-icon-al-xitonggonggao"></i>
@@ -112,6 +113,7 @@
                                     <span v-else-if="OrderData.withhold_type==7">國泰世華銀行</span>
                                     <span v-else-if="OrderData.withhold_type==6">彰化銀行</span>
                                     <span v-else-if="OrderData.withhold_type==8">星展銀行</span>
+                                    <span v-else-if="OrderData.withhold_type==9">中國信託</span>
                                 </span>
                                 <span  v-if="OrderData.payment_method==5">
                                     <span v-if="OrderData.withhold_type==2">超商代碼 : {{OrderData.payment_account}}</span>
@@ -196,8 +198,8 @@
                         </div>
                         <div  v-if="OrderData.order_state==10 || OrderData.order_state==9 ||  OrderData.order_state==8">
                             <h3>代付失敗原因</h3>
-                            <p>您申請的代付因付款超時或被賣家主動關閉導致代付失敗，請取消訂單重新提交，退款將會退至E幣錢包，詳情請查看會員中心右上方
-                                <router-link to="/recordrb" style="color: #4843ff">E幣交易明細。</router-link>
+                            <p>您申請的代付因付款超時或被賣家主動關閉導致代付失敗，請取消訂單重新提交，退款將會退至E幣錢包
+<!--                              ，詳情請查看會員中心右上方<router-link to="/recordrb" style="color: #4843ff">E幣交易明細。</router-link>-->
                             </p>
 
                         </div>

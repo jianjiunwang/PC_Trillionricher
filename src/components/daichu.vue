@@ -1,5 +1,5 @@
 <template>
-    <div class="Alipay_stored" >
+    <div class="Alipay_stored" v-if="merber_phone">
         <div class="tongzhi">
             <div class="content">
                 <i class="iconfont el-icon-al-xitonggonggao" style="color: #fe5e00;font-size: 20px;margin-left: 10px"></i>
@@ -86,24 +86,32 @@
                                         <p>錢包餘額<span class="color_red">{{Number(r_money).toFixed(2)}}</span>個</p>
                                     </div>
                                 </div>
-                                <div  class="payment_method" @click="radioBank = 9" :style="radioBank=='7'?'border: 2px solid #2F54EB;':'border: 1px solid #CCCCCC;'">
+                                <div  class="payment_method" @click="radioBank = 10" :style="radioBank=='10'?'border: 2px solid #2F54EB;':'border: 1px solid #CCCCCC;'">
                                     <img src="../assets/image/img/ATM.png" alt="">
                                     <div>
                                         <h3 >網路ATM/ATM櫃機</h3>
-                                        <p>國泰銀行(013)虛擬帳號</p>
+                                        <p>陽信銀行虛擬帳號</p>
                                     </div>
                                 </div>
                             </div>
 
 
 
-                            <div v-show="radioBank == 9 " style="padding-top: 10px;font-size: 14px">
-                              <img src="../assets/image/ZGXT1.png" alt="" style="width: 200px">
-                              <p>請使用網路銀行或實體ATM將金額轉入產生帳戶</p>
-                              <p>若轉帳後４８小時未入帳請與我們聯絡。</p>
-                              <p>輸入您轉出帳號後５碼，請勿使用其他帳號匯入，交易會卡住</p>
-                              <p>帳號產生後會簡訊通知，此帳號可以任何銀行匯入</p>
-                              <el-input  v-model="bankcode"  placeholder="匯款銀行後五位 " style="margin-top: 15px;width: 620px" ></el-input>
+<!--                            <div v-show="radioBank == 9 " style="padding-top: 10px;font-size: 14px">-->
+<!--                              <img src="../assets/image/ZGXT1.png" alt="" style="width: 200px">-->
+<!--                              <p>請使用網路銀行或實體ATM將金額轉入產生帳戶</p>-->
+<!--                              <p>若轉帳後４８小時未入帳請與我們聯絡。</p>-->
+<!--                              <p>輸入您轉出帳號後５碼，請勿使用其他帳號匯入，交易會卡住</p>-->
+<!--                              <p>帳號產生後會簡訊通知，此帳號可以任何銀行匯入</p>-->
+<!--                              <el-input  v-model="bankcode"  placeholder="匯款銀行後五位 " style="margin-top: 15px;width: 620px" ></el-input>-->
+<!--                            </div>-->
+                            <div v-show="radioBank == 10 " style="padding-top: 10px;font-size: 14px">
+                                <img src="../assets/image/yangxin1.png" alt="" style="width: 200px">
+                                <p>請使用網路銀行或實體ATM將金額轉入產生帳戶</p>
+                                <p>若轉帳後４８小時未入帳請與我們聯絡。</p>
+                                <p>輸入您轉出帳號後５碼，請勿使用其他帳號匯入，交易會卡住</p>
+                                <p>帳號產生後會簡訊通知，此帳號可以任何銀行匯入</p>
+                                <el-input  v-model="bankcode"  placeholder="匯款銀行後五位 " style="margin-top: 15px;width: 620px" ></el-input>
                             </div>
 <!--                            <div v-show="radioBank == 7 " style="padding-top: 10px;font-size: 14px">-->
 <!--                                <img src="../assets/image/guotai.jpg" alt="" style="width: 150px;width:150px;    border-radius: 10px;-->
@@ -233,11 +241,12 @@
                 <p style="font-size: 14px;text-align: center;color: #666666">您的E幣餘額不足{{robot_rmb}},需補款 <span style="color: red">￥{{(robot_rmb-r_money).toFixed(2)}}</span>，請選擇補款方式。</p>
                 <el-radio-group v-model="withhold_type" size="medium" style="display: flex;justify-content: space-around;margin-top: 10px">
                     <!--<el-radio label="8"  style="padding: 10px 10px">星展銀行</el-radio>-->
-                    <el-radio label="9"  style="padding: 10px 10px">中國信託</el-radio>
+<!--                    <el-radio label="9"  style="padding: 10px 10px">中國信託</el-radio>-->
+                    <el-radio label="10"  style="padding: 10px 10px">陽信銀行</el-radio>
 <!--                    <el-radio label="7" border style="padding: 10px">ATM銀行轉帳(013 國泰銀行)</el-radio>-->
                     <!--<el-radio label="2" style="padding: 10px 10px">超商補款</el-radio>-->
                 </el-radio-group>
-                <el-input v-show="withhold_type == 9 || withhold_type == 7" v-model="bankcode"  placeholder="匯款銀行後五位 " style="margin-top: 15px" ></el-input>
+                <el-input v-show="withhold_type == 9 || withhold_type == 7 || withhold_type == 10" v-model="bankcode"  placeholder="匯款銀行後五位 " style="margin-top: 15px" ></el-input>
                 <div style="display: flex;flex-direction: row-reverse;padding:20px 10px">
                     <el-button type="primary" style="margin-left: 20px" @click="BKdaichu" size="mini">確定並送出</el-button>
                     <el-button type="info" @click="again" size="mini">重新選擇付款方式</el-button>
@@ -759,7 +768,7 @@
                     return false
                 }
 
-                if(this.radioBank==5){
+                if(this.radioBank==5  || this.radioBank==3){
                     this.dragverify = true
                     return false
                 }
@@ -788,6 +797,7 @@
             },
             //提交代储
             subdaichuAJAX:function(){
+
                 var _this=this;
                 this.subdaichubled=true;
                 //-----------获取随机数
@@ -1251,6 +1261,11 @@
             },
 
             Openandclose:function () {
+                this.gettongzhi();
+                this.getexchange();
+                this.getzhifubao();
+                this.check_order()
+                return
                 $.ajax({
                     type: "POST",
                     url: "https://www.trillionricher.com/1.0/notice_switch",
