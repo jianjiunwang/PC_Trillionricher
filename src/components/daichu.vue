@@ -1261,11 +1261,6 @@
             },
 
             Openandclose:function () {
-                this.gettongzhi();
-                this.getexchange();
-                this.getzhifubao();
-                this.check_order()
-                return
                 $.ajax({
                     type: "POST",
                     url: "https://www.trillionricher.com/1.0/notice_switch",
