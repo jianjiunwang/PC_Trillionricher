@@ -85,6 +85,7 @@
                             <th v-else-if="OrderData.payment_method==7">國泰世華銀行(013)</th>
                             <th v-else-if="OrderData.payment_method==8">星展銀行(810)</th>
                             <th v-else-if="OrderData.payment_method==9">中國信託(822)</th>
+                            <th v-else-if="OrderData.payment_method==10">陽信銀行(108)</th>
                             <th v-else-if="OrderData.payment_method==5">補款金額</th>
                             <th v-else-if="OrderData.payment_method==5">補款方式</th>
                             <th v-else>尚未選擇付款方式</th>
@@ -94,7 +95,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <span v-if="OrderData.payment_method==1 || OrderData.payment_method==6 || OrderData.payment_method==4 || OrderData.payment_method==9 || OrderData.payment_method==7 ">虛擬帳號</span>
+                                <span v-if="OrderData.payment_method==1 || OrderData.payment_method==6 || OrderData.payment_method==10 || OrderData.payment_method==9 || OrderData.payment_method==7 ">虛擬帳號</span>
                                 <span v-if="OrderData.payment_method==2">超商付款</span>
                                 <span v-if="OrderData.payment_method==3">錢包餘額</span>
                                 <span v-if="OrderData.payment_method==5">錢包餘額 + 補款</span>
@@ -102,7 +103,7 @@
                                 <span v-if="OrderData.payment_method==null &&  OrderData.order_state==0">您的訂單正在處理中 !</span>
                             </td>
                             <td>
-                                <span v-if="OrderData.payment_method==1 || OrderData.payment_method==6 || OrderData.payment_method==4 || OrderData.payment_method==9 || OrderData.payment_method==7 ">{{OrderData.payment_account}}</span>
+                                <span v-if="OrderData.payment_method==1 || OrderData.payment_method==6 || OrderData.payment_method==4 || OrderData.payment_method==9 || OrderData.payment_method==7 || OrderData.payment_method==10 ">{{OrderData.payment_account}}</span>
                                 <span v-if="OrderData.payment_method==2">{{OrderData.payment_account}}</span>
                                 <span v-if="OrderData.payment_method==3">￥{{(OrderData.r_money*1).toFixed(2)}}</span>
                                 <span v-if="OrderData.payment_method==5">補款金額 : ${{OrderData.withhold_twd}} 新臺幣</span>
@@ -114,6 +115,7 @@
                                     <span v-else-if="OrderData.withhold_type==6">彰化銀行</span>
                                     <span v-else-if="OrderData.withhold_type==8">星展銀行</span>
                                     <span v-else-if="OrderData.withhold_type==9">中國信託</span>
+                                    <span v-else-if="OrderData.withhold_type==10">陽信銀行</span>
                                 </span>
                                 <span  v-if="OrderData.payment_method==5">
                                     <span v-if="OrderData.withhold_type==2">超商代碼 : {{OrderData.payment_account}}</span>
@@ -128,6 +130,7 @@
                                 <span v-if="OrderData.withhold_type==7">國泰世華銀行</span>
                                 <span v-if="OrderData.withhold_type==8">星展銀行</span>
                                 <span v-if="OrderData.withhold_type==9">中國信託</span>
+                                <span v-if="OrderData.withhold_type==10">陽信銀行</span>
                                 <span v-if="OrderData.withhold_type==6">彰化銀行</span>
                             </td>
                             <td>{{OrderData.create_time|convTimehms}}</td>

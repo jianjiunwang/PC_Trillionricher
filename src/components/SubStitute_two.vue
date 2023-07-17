@@ -50,13 +50,13 @@
                                 <img src="../assets/image/img/ATM.png" alt="">
                                 <div>
                                     <h3 >網路ATM/ATM櫃機</h3>
-                                    <p>陽信銀行虛擬帳號</p>
+                                    <p>陽信銀行(108)虛擬帳號</p>
                                 </div>
                             </div>
                         </div>
 
                     <div v-show="radioBank == 10 " style="padding-top: 10px;font-size: 14px">
-                        <img src="../assets/image/ZGXT1.png" alt="" style="width: 200px">
+                        <img src="../assets/image/yangxin1.png" alt="" style="width: 200px">
                         <p>請使用網路銀行或實體ATM將金額轉入產生帳戶</p>
                         <p>若轉帳後４８小時未入帳請與我們聯絡。</p>
                         <p>輸入您轉出帳號後５碼，請勿使用其他帳號匯入，交易會卡住</p>

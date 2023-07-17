@@ -480,6 +480,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="inputidentity">
+                    <div>
+                        <div style="width:100%;height: 230px;border: 1px solid #e7e7e7;position: relative">
+                            <img v-show="!imageUrl3" src="../assets/image/u6.png" alt="" style="width: 100px;position: absolute;top: 75px;left: 145px">
+                            <img v-show="imageUrl3" :src="imageUrl3" alt="" width="100%" height="100%">
+                            <p v-show="imageUrl3" style="color: #FE0000;z-index: 10;;position:absolute; top: 100px;left: 106px;font-size: 20px;font-weight: bold;opacity: 0.5">僅供兆富通審核使用</p>
+                            <div style="width: 100%;height: 230px;position: absolute;top: 0;z-index: 999"></div>
+                        </div>
+                        <div style="position: relative">
+                            <input type="file" class="inputfr" id="handheld_front"  accept=".jpg,.png,.gif"  @change="onchange(7)">
+                            <el-button type="primary" style="background-color:#efb300;border: none ">點擊選擇手持身份證正面圖片</el-button>
+                        </div>
+                    </div>
+                </div>
                 <div style="display: flex;justify-content: flex-end">
                     <el-button   type="primary" @click="submitUpload" class="Certification">確認並送出</el-button>
                 </div>
@@ -926,10 +940,13 @@
                 birthDate: '',//身份认证——发放日期
                 imageUrl1: '', //身份认证——正面图片预览地址
                 imageUrl2: '',//身份认证——反面图片预览地址
+                imageUrl3: '',//身份认证——反面图片预览地址
                 identity_fronturl:'',//身份证正面上传地址
                 identity_reverseurl:'',//身份证反面上传地址
+                handheld_fronturl:'',//手持上传地址
                 identity_frontfile:'',//身份证正面图片对象
                 identity_reversefile:'',//身份证反面上传对象
+                handheld_front:'',//手持对象
                 fileimageUrl:'',//文件认证预览地址
                 fileverifyfile:'',//文件认证图片上传地址
                 identityReg:{
@@ -1141,7 +1158,7 @@
             //身份认证
             submitUpload: function () {
                 var _this = this
-                if(this.imageUrl1 == '' || this.imageUrl2 == ''){
+                if(this.imageUrl1 == '' || this.imageUrl2 == '' || this.imageUrl3 == ''){
                     this.$message({
                         message: '請選擇身份證圖片',
                         type: 'error'
@@ -1166,9 +1183,9 @@
                                 Body: _this.identity_frontfile, // 上传文件对象
                                 onProgress: function(progressData) {
                                 }
-                            }, function(err, data) {
-                                if(data.statusCode == 200){
-                                    _this.identity_fronteurl = 'https://'+ data.Location //正面上传腾讯返回地址
+                            }, function(err, data1) {
+                                if(data1.statusCode == 200){
+                                    _this.identity_fronteurl = 'https://'+ data1.Location //正面上传腾讯返回地址
                                     cos.putObject({
                                         Bucket: 'trillionricher-1258896139',
                                         Region: 'ap-tokyo',
@@ -1177,12 +1194,25 @@
                                         Body: _this.identity_reversefile, // 上传文件对象
                                         onProgress: function(progressData) {
                                         }
-                                    }, function(err, data) {
-                                        if(data.statusCode == 200){
-                                            _this.identity_reverseurl = 'https://'+data.Location  //反面上传腾讯云返回地址
-                                            setTimeout(function () {
-                                                _this.submitUploadid()
-                                            },500)
+                                    }, function(err, data2) {
+                                        if(data2.statusCode == 200){
+                                            _this.identity_reverseurl = 'https://'+data2.Location  //手持上传腾讯云返回地址
+                                            cos.putObject({
+                                                Bucket: 'trillionricher-1258896139',
+                                                Region: 'ap-tokyo',
+                                                Key:  'identity_reverse/'+'handheld'+sign,
+                                                StorageClass: 'STANDARD',
+                                                Body: _this.handheld_front, // 上传文件对象
+                                                onProgress: function(progressData) {
+                                                }
+                                            }, function(err, data3) {
+                                                if(data3.statusCode == 200){
+                                                    _this.handheld_fronturl = 'https://'+data3.Location  //反面上传腾讯云返回地址
+                                                    setTimeout(function () {
+                                                        _this.submitUploadid()
+                                                    },500)
+                                                }
+                                            });
                                         }
                                     });
                                 }
@@ -1277,6 +1307,7 @@
                     data: {
                         identity_front:_this.identity_fronteurl,
                         identity_reverse:this.identity_reverseurl,
+                        identity_hand:this.handheld_fronturl,
                         merber_id:_this.merber_id,
                         token:_this.token,
                         identity_num:_this.identitydata.identity_num,
@@ -2192,7 +2223,7 @@
                                 dataType:"json",
                                 data: this.wjimimaform,
                                 success:(res)=>{
-                                    this.$refs.sliResetpwd.reset();
+                                    // this.$refs.sliResetpwd.reset();
                                     this.forget_padbeld = false
                                     this.msg = ""
                                     if(res.success==1){
@@ -2558,6 +2589,7 @@
             },
             //图片预览地址转base64并压缩
             onchange: function (index) {
+
                 if (index == 1) {
                     var fileObj = document.getElementById("identity_front").files[0];
                     var fileObjsize = (fileObj.size / 1024).toFixed(1)
@@ -2635,6 +2667,28 @@
                         }else if(fileObjsize > 5120){
                             lrz(fileObj,{quality:0.5}).then(res=>{
                                 this.fileverifyfile = this.base64_file(res.base64,fileObj.name)
+                            })
+                        }
+                    }
+                } else if (index == 7) {
+                    var fileObj = document.getElementById("handheld_front").files[0];
+                    var fileObjsize = (fileObj.size / 1024).toFixed(1)
+                    if(!/\.(jpg|png|JPG|PNG)$/.test(fileObj.name) ){
+                        this.$message({
+                            message: '請選擇JPG或PNG圖片',
+                            type: 'error'
+                        });
+                    }else {
+                        this.imageUrl3 = window.URL.createObjectURL(fileObj) //转base64
+                        if(fileObjsize < 1024){
+                            this.handheld_front = fileObj
+                        }else if(fileObjsize > 1024 && fileObjsize < 5120){
+                            lrz(fileObj,{quality:0.7}).then(res=>{
+                                this.handheld_front =  this.base64_file(res.base64,fileObj.name)
+                            })
+                        }else if(fileObjsize > 5120){
+                            lrz(fileObj,{quality:0.5}).then(res=>{
+                                this.handheld_front = this.base64_file(res.base64,fileObj.name)
                             })
                         }
                     }

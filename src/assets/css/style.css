@@ -1845,6 +1845,8 @@ color: #0d397e
 .shenfen{
     padding: 10px 20px;
     color: #000000;
+    overflow: auto;
+    height: calc(60vh - 90px);
 }
 .shenfen_xq{
     margin-top: 20px;

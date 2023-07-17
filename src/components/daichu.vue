@@ -90,7 +90,7 @@
                                     <img src="../assets/image/img/ATM.png" alt="">
                                     <div>
                                         <h3 >網路ATM/ATM櫃機</h3>
-                                        <p>陽信銀行虛擬帳號</p>
+                                        <p>陽信銀行(108)虛擬帳號</p>
                                     </div>
                                 </div>
                             </div>
