@@ -1293,6 +1293,14 @@
                             this.alipay_num = ''
                             this.alipay_name = ''
                         }
+                        if(res.success == -2){
+                            this.$message({
+                                message: res.msg,
+                                type: 'error',
+                            })
+                            this.alipay_num = ''
+                            this.alipay_name = ''
+                        }
                     }
                 })
 
