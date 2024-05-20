@@ -318,7 +318,7 @@
                 :visible.sync="dragverify"
                 :close-on-click-modal="false"
                 :close-on-press-escape="false"
-                style="margin-top: 20vh;"
+                
                 width="400px"
         >
             <span slot="title" >

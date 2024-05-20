@@ -74,7 +74,7 @@
                 success: (res) => {
                     if (res.success == 1) {
                         if (res.data[1].switch == 1) {
-                            this.dialogVisible = true
+                            this.dialogVisible =false
                             this.gonggaohtmnl = res.data[1].content
                         }else {
                             this.dialogVisible = false
